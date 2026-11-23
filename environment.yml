@@ -1,0 +1,31 @@
+name: pepfloken
+channels:
+  - conda-forge
+  - nodefaults
+dependencies:
+  - python=3.11
+  - pip
+  - pip:
+      - --index-url https://pypi.org/simple
+      - --extra-index-url https://download.pytorch.org/whl/cu132
+      - --find-links https://west.rosettacommons.org/pyrosetta/quarterly/release/
+      - torch==2.14.1+cu132
+      - biopython
+      - easydict
+      - einops
+      - GitPython
+      - joblib
+      - lmdb
+      - MDAnalysis
+      - mdtraj
+      - numpy
+      - omegaconf
+      - pandas
+      - PyYAML
+      - scipy
+      - tmtools
+      - tqdm
+      - wandb
+      - dm-tree
+      - ml-collections
+      - 'pyrosetta; platform_system == "Linux" and platform_machine == "x86_64"'

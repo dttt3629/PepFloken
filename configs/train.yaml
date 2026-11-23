@@ -1,0 +1,95 @@
+model:
+  encoder:
+    node_embed_size: 128
+    edge_embed_size: 64
+    ipa:
+      c_s: 128
+      c_z: 64
+      c_hidden: 128
+      no_heads: 8
+      no_qk_points: 8
+      no_v_points: 12
+      seq_tfmr_num_heads: 4
+      seq_tfmr_num_layers: 2
+      num_blocks: 6
+      stop_grad: False
+  interpolant:
+    min_t: 1.e-2
+    t_normalization_clip: 0.9
+    sample_sequence: True
+    sample_structure: True
+    rots:
+      train_schedule: linear
+      sample_schedule: exp
+      exp_rate: 10
+    trans:
+      train_schedule: linear
+      sample_schedule: linear
+      sigma: 1.0
+    seqs:
+      num_classes: 20
+      simplex_value: 5.0
+    sampling:
+      num_timesteps: 100
+    self_condition: False
+  loss:
+      include_cb: True
+      target_coord_weight: 3.0
+      pair_distance_weight: 0.2   
+      chi_angle_weight: 0.1
+      bond_length_weight: 0.6
+      env_interaction_weight: 0.2
+      num_env_neighbors: 10
+      bond_angle_weight: 0.6
+      env_use_sidechain_only: False 
+
+train:
+  loss_weights:
+    trans_loss: 0.5
+    rot_loss: 0.5
+    bb_atom_loss: 0.25
+    seqs_loss: 1.0
+    angle_loss: 0
+    torsion_loss: 0
+    vq_loss: 0.5
+    sidechain_loss: 1.0
+  max_iters: 400000000
+  val_freq: 20000
+  batch_size: 8
+  accum_grad: 1
+  seed: 114514
+  max_grad_norm: 100.0
+  optimizer:
+    type: adam
+    lr: 1.e-4
+    weight_decay: 0.0
+    beta1: 0.9
+    beta2: 0.999
+  scheduler:
+    type: warmup_cosine
+    warmup_steps: 4000
+    total_steps: 600000
+    min_lr: 5.e-6
+
+sampling:
+  checkpoint: ./ckpt/pepfloken.pt
+
+dataset:
+  train:
+    type: peprec
+    structure_dir: ./
+    dataset_dir: ./Data
+    name: train.lmdb
+    reset: True
+  val:
+    type: peprec
+    structure_dir: ./
+    dataset_dir: ./Data
+    name: val.lmdb
+    reset: False
+  test:
+    type: peprec
+    structure_dir: ./
+    dataset_dir: ./Data
+    name: test.lmdb
+    reset: False
