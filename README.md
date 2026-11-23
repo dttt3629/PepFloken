@@ -4,7 +4,7 @@
 
 ![Figure 1. PepFloken tokenizer and two-stage generation pipeline](assets/PepFloken.png)
 
-*Figure 1. PepFloken combines discrete side-chain tokens with a two-stage flow-matching model. The first stage jointly predicts backbone geometry and discrete tokens conditioned on a receptor pocket. The second stage generates all-atom side-chain coordinates.*
+
 
 ## Installation
 
