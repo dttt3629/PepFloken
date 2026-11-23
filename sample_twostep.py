@@ -378,11 +378,9 @@ if __name__ == '__main__':
             rot_dist = torch.sqrt(torch.sum((torch.concat(store_from_trajls(traj_list,-1,'rotmats'))-torch.concat(store_from_trajls(traj_list,-1,'rotmats_1')))**2*torch.concat([batch['generate_mask'][...,None,None].long().cpu() for _ in range(num_it)],dim=0)) / (torch.sum(batch['generate_mask'])*2 + 1e-8).cpu()) 
             aar = torch.concat(store_from_trajls(traj_list,-1,'seqs'))==torch.concat(store_from_trajls(traj_list,-1,'seqs_1'))
             aar = torch.sum(aar* batch['generate_mask'][:1].long().cpu())/ (torch.sum(batch['generate_mask']) + 1e-8).cpu()/num_it
-            vqr =torch.concat(store_from_trajls(traj_list,-1,'vq'))==torch.concat(store_from_trajls(traj_list,-1,'vq_1'))* torch.concat([batch['generate_mask'].long().cpu() for _ in range(num_it)],dim=0)
-            vqr = torch.sum(vqr* batch['generate_mask'][:1].long().cpu()) / (torch.sum(batch['generate_mask']) + 1e-8).cpu()/num_it
 
 
-            print(f'tran:{ca_dist},rot:{rot_dist},aar:{aar},vqr:{vqr},len:{batch["generate_mask"].sum().item()}')
+            print(f'tran:{ca_dist},rot:{rot_dist},aar:{aar},len:{batch["generate_mask"].sum().item()}')
 
 
             torch.cuda.empty_cache()
